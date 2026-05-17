@@ -1,22 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700&display=swap');
 
+/* Reset básico importante para cálculo correto de tamanhos */
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     color: #2D2D2D;
     margin: 0;
     min-height: 100vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column; /* MOBILE-FIRST: Elementos empilhados por padrão */
     background: #f0f4f2;
     overflow-x: hidden;
     position: relative;
 }
 
+/* Bolhas decorativas ajustadas para não quebrar o layout mobile */
 body::before, body::after {
     content: "";
     position: fixed;
-    width: 500px;
-    height: 500px;
+    width: 300px; /* Reduzido no mobile para não transbordar tanto */
+    height: 300px;
     border-radius: 50%;
     z-index: -1;
     filter: blur(80px);
@@ -25,22 +31,24 @@ body::before, body::after {
 
 body::before {
     background: #81c784;
-    top: -100px;
-    right: -100px;
+    top: -50px;
+    right: -50px;
 }
 
-h1{
+h1 {
     font-family: 'Poppins', sans-serif;
     color: #1B4332;
-    font-size: 2.5rem;
+    font-size: 2rem; /* Tamanho mais amigável para celular */
+    text-align: center;
 }
 
-/* INPUT E BOTÃO */
+/* INPUT E BOTÃO RESPONSIVOS */
 input[type="text"] {
     padding: 12px 20px;
     border: 1px solid #dcdcdc;
     border-radius: 10px;
-    width: 300px;
+    width: 100%;       /* Ocupa o espaço disponível do container */
+    max-width: 300px;  /* Mas não passa de 300px */
     outline: none;
     transition: 0.3s;
 }
@@ -59,7 +67,9 @@ button {
     font-weight: 600;
     cursor: pointer;
     transition: 0.3s;
-    margin-top: 40px;
+    margin-top: 20px; /* Reduzido a margem no mobile */
+    width: 100%;
+    max-width: 300px;
 }
 
 button:hover {
@@ -69,15 +79,15 @@ button:hover {
 
 /* LISTA */
 ul {
-list-style: none;
+    list-style: none;
     padding: 20px;
-    margin: 0;
-    
+    margin: 0 auto; /* Centraliza a lista */
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
     gap: 15px;
-    width: 90%;
-    max-height: 400px; 
+    width: 100%;
+    max-width: 500px; /* Evita que a lista estique infinitamente */
+    max-height: 300px; 
     overflow-y: auto;
 }
 
@@ -97,30 +107,19 @@ li:hover {
     transform: scale(1.02);
 }
 
-.dicas{
-    background-color: #F1F8E9;
-    border-radius: 20px;
-    padding: 40px;
-    border: 1px solid rgba(45, 106, 79, 0.1);
-}
-
-/* CONTAINERS */
-.container1 {
-    width: 50%;
-    height: 100vh;
+/* CONTAINERS - CONFIGURAÇÃO MOBILE */
+.container1, .container2 {
+    width: 100%; /* No celular, ocupam a largura total */
+    min-height: 50vh; /* Dividem a tela verticalmente */
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 20px;
 }
 
 .container2 {
-    width: 50%;
-    height: 100vh;
-
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    justify-content: center; /* Centraliza melhor no mobile */
     padding-bottom: 40px; 
 }
 
@@ -128,13 +127,45 @@ li:hover {
 .dicas {
     background-color: #e8f5e9;
     border-radius: 10px;
-    padding: 15px;
-    width: 80%;
+    padding: 20px;
+    width: 100%;
+    max-width: 500px; /* Limita o tamanho em telas maiores */
     margin-top: 20px;
     text-align: left;
+    border: 1px solid rgba(45, 106, 79, 0.1);
 }
 
 .dicas p {
     margin: 8px 0;
 }
 
+/* --- MEDIA QUERY: AJUSTES PARA TELAS GRANDES (DESKTOP) --- */
+@media (min-width: 768px) {
+    body {
+        flex-direction: row; /* Volta a ser lado a lado */
+    }
+
+    body::before, body::after {
+        width: 500px; /* Restaura o tamanho das bolhas em telas grandes */
+        height: 500px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .container1, .container2 {
+        width: 50%; /* Cada um ocupa metade da tela */
+        height: 100vh;
+    }
+
+    .container2 {
+        align-items: flex-end; /* Alinha abaixo como no seu original */
+        justify-content: flex-end;
+    }
+
+    ul {
+        max-height: 400px;
+        max-width: 90%;
+    }
+}
